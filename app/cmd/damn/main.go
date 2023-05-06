@@ -6,27 +6,55 @@ import (
 	"os"
 
 	"ktolstikhin/damn/internal/damn"
-	"ktolstikhin/damn/internal/damn/lang"
+	"ktolstikhin/damn/internal/damn/vocab"
 )
 
 func main() {
 	var (
-		gnd     string
-		lng     string
-		level   int
-		obscene bool
+		genderStr string
+		langStr   string
+		name      string
+		level     int
+		obscene   bool
 	)
-	flag.StringVar(&gnd, "gender", "male", "Gender of the person to damn: male, female.")
-	flag.StringVar(&lng, "language", "ru", "God damn language: ru.")
-	flag.IntVar(&level, "level", 1, "God damn level: from 1 to 3.")
+	flag.StringVar(&genderStr, "gender", "m", "Gender to damn: m - male, f - female.")
+	flag.StringVar(&langStr, "language", "ru", "God damn language: ru.")
+	flag.StringVar(&name, "name", "", "Name to damn.")
+	flag.IntVar(&level, "level", 1, "God damn level: from 1 to 4.")
 	flag.BoolVar(&obscene, "obscene", false, "Usage of obscene vocabulary.")
 	flag.Parse()
 
-	s, err := damn.DamnYou(lang.Gender(gnd), lang.Language(lng), obscene, level)
-	if err != nil {
-		fmt.Println(err)
+	gender, ok := genders[genderStr]
+	if !ok {
+		fmt.Printf("unknown gender: %s\n", genderStr)
 		os.Exit(1)
 	}
 
-	fmt.Println(s)
+	lng, ok := languages[langStr]
+	if !ok {
+		fmt.Printf("unknown language: %s\n", langStr)
+		os.Exit(1)
+	}
+
+	s := damn.NewDamner(lng).DamnYou(
+		level,
+		vocab.WithGender(gender),
+		vocab.WithObscene(obscene),
+	)
+
+	if name != "" {
+		fmt.Printf("%s %s.\n", name, s)
+	} else {
+		fmt.Println(damn.ToSentence(s))
+	}
 }
+
+var (
+	genders = map[string]vocab.Gender{
+		"m": vocab.GenderMasculine,
+		"f": vocab.GenderFeminine,
+	}
+	languages = map[string]vocab.Language{
+		"ru": vocab.LanguageRU,
+	}
+)
