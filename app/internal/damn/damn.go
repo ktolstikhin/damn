@@ -1,8 +1,6 @@
 package damn
 
 import (
-	"strings"
-
 	"ktolstikhin/damn/internal/damn/vocab"
 	"ktolstikhin/damn/internal/util"
 )
@@ -17,7 +15,7 @@ func NewDamner(lang vocab.Language) *Damner {
 	}
 }
 
-func (d *Damner) DamnYou(level int, opts ...vocab.Option) string {
+func (d *Damner) DamnYou(level int, opts ...vocab.Option) []string {
 	if level < 1 {
 		level = 1
 	}
@@ -29,7 +27,7 @@ func (d *Damner) DamnYou(level int, opts ...vocab.Option) string {
 
 	// First, compose God damn adjectives
 	for i := 0; i < level; i++ {
-		adj := util.RandStr(corpus.Adjectives)
+		adj := util.RandPick(corpus.Adjectives)
 		if adjSeen[adj] {
 			continue
 		}
@@ -38,8 +36,8 @@ func (d *Damner) DamnYou(level int, opts ...vocab.Option) string {
 
 		if util.FlipCoin() && len(output) < level {
 			conjSeen := make(map[string]bool)
-			for j := 0; j < util.RandMinMaxInt(1, 3); j++ {
-				conj := util.RandStr(corpus.Conjunctions)
+			for j := 0; j < util.RandIntMinMax(1, 3); j++ {
+				conj := util.RandPick(corpus.Conjunctions)
 				if conjSeen[conj] {
 					continue
 				}
@@ -50,11 +48,11 @@ func (d *Damner) DamnYou(level int, opts ...vocab.Option) string {
 	}
 
 	// Then, add a single noun
-	output = append(output, util.RandStr(corpus.Nouns))
+	output = append(output, util.RandPick(corpus.Nouns))
 
 	// After that, add randomly one more adjective to the end, if not added yet
 	if util.FlipCoin() {
-		adj := util.RandStr(corpus.Adjectives)
+		adj := util.RandPick(corpus.Adjectives)
 		if _, ok := adjSeen[adj]; !ok {
 			output = append(output, adj)
 		}
@@ -62,9 +60,12 @@ func (d *Damner) DamnYou(level int, opts ...vocab.Option) string {
 
 	// Finally, append at random one addition if the level is high enough
 	if util.FlipCoin() && level > 3 {
-		k, v := util.RandomKeyValueFromMap(corpus.Additions)
-		output = append(output, util.RandStr(corpus.Conjunctions), k, util.RandStr(v))
+		if d.vocab.Lang == vocab.LanguageRU {
+			output = append(output, ",")
+		}
+		k, v := util.RandMapEntry(corpus.Additions)
+		output = append(output, k, util.RandPick(v))
 	}
 
-	return strings.Join(output, " ")
+	return output
 }

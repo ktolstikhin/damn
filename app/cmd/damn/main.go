@@ -16,9 +16,9 @@ func main() {
 		level     int
 		obscene   bool
 	)
-	flag.StringVar(&genderStr, "gender", "m", "Gender to damn: m - male, f - female.")
+	flag.StringVar(&genderStr, "gender", "m", "God damn gender: m - male, f - female.")
 	flag.StringVar(&langStr, "language", "ru", "God damn language: ru.")
-	flag.IntVar(&level, "level", 1, "God damn level: from 1 to 4.")
+	flag.IntVar(&level, "level", 1, "God damn level: from 1 to sky is the limit.")
 	flag.BoolVar(&obscene, "obscene", false, "Usage of obscene vocabulary.")
 	flag.Parse()
 
@@ -34,13 +34,13 @@ func main() {
 		os.Exit(1)
 	}
 
-	s := damn.NewDamner(lng).DamnYou(
+	tokens := damn.NewDamner(lng).DamnYou(
 		level,
 		vocab.WithGender(gender),
 		vocab.WithObscene(obscene),
 	)
 
-	fmt.Println(s)
+	fmt.Println(compose(tokens))
 }
 
 var (
@@ -52,3 +52,16 @@ var (
 		"ru": vocab.LanguageRU,
 	}
 )
+
+func compose(tokens []string) string {
+	var s string
+	for i, t := range tokens {
+		if i == 0 || t == "," {
+			s += t
+		} else {
+			s += " " + t
+		}
+	}
+
+	return s
+}

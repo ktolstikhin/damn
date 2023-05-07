@@ -13,7 +13,7 @@ func MergeMaps[K comparable, V any](m1 map[K]V, m2 map[K]V) map[K]V {
 	return merged
 }
 
-func RandomKeyValueFromMap[K comparable, V any](m map[K]V) (K, V) {
+func RandMapEntry[K comparable, V any](m map[K]V) (K, V) {
 	var (
 		k K
 		v V
