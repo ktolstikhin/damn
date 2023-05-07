@@ -20,6 +20,10 @@ func RandomKeyValueFromMap[K comparable, V any](m map[K]V) (K, V) {
 		i = rand.Intn(len(m))
 	)
 
+	if len(m) == 0 {
+		return k, v
+	}
+
 	for k, v = range m {
 		if i == 0 {
 			break
