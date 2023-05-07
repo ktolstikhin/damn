@@ -54,9 +54,11 @@ func (v *Vocabulary) Corpus(opts ...Option) Corpus {
 			if !config.obscene {
 				corpus.Nouns = feminineAbusiveNounsRU
 				corpus.Adjectives = feminineAbusiveAdjectivesRU
+				corpus.Additions = feminineAbusiveAdditionsRU
 			} else {
 				corpus.Nouns = feminineObsceneNounsRU
 				corpus.Adjectives = feminineObsceneAdjectivesRU
+				corpus.Additions = feminineObsceneAdditionsRU
 			}
 		}
 		if !config.obscene {
