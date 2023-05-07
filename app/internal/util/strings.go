@@ -1,6 +1,8 @@
 package util
 
-import "unicode"
+import (
+	"unicode"
+)
 
 func ToSentence(s string) string {
 	runes := []rune(s)
