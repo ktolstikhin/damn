@@ -1,5 +1,7 @@
 package vocab
 
+import "ktolstikhin/damn/internal/util"
+
 var (
 	masculineAbusiveAdjectivesRU = []string{
 		"толстый",
@@ -171,7 +173,7 @@ var (
 	feminineAbusiveNounsRU      = []string{}
 	feminineObsceneNounsRU      = append([]string{}, feminineAbusiveNounsRU...)
 
-	conjunctionsAbuseRU = []string{
+	conjunctionsAbusiveRU = []string{
 		"и",
 		"внатуре",
 		"нахер",
@@ -192,5 +194,63 @@ var (
 		"ебать-колоть",
 		"ебать-не-встать",
 		"ебать-не-переебать",
-	}, conjunctionsAbuseRU...)
+	}, conjunctionsAbusiveRU...)
+
+	masculineAbusiveAdditionsRU = map[string][]string{
+		"орущий": {
+			"на море",
+			"себе в жопу",
+			"себе в ухо",
+			"в небо",
+			"на говно",
+			"в истерике",
+			"в ужасе",
+			"в страхе",
+			"и срущий",
+			"и злоебучий",
+		},
+		"нюхающий": {
+			"говно",
+			"жопу орангутана",
+			"жопу носорога",
+			"жопу скунса",
+			"свои подмышки",
+			"фекалии копибары",
+			"вонючие носки",
+		},
+		"застрявший": {
+			"в жопе бомжа",
+			"в жопе мамонта",
+			"в жопе динозавра",
+		},
+		"жрущий": {
+			"гавно мамонта",
+			"фекалии носорога",
+			"дохлых медуз",
+			"склизкие водоросли",
+			"вонючие носки",
+		},
+		"срущий": {
+			"гвоздями",
+			"дикобразами",
+			"всратыми пауками",
+		},
+	}
+	masculineObsceneAdditionsRU = util.MergeMaps(masculineAbusiveAdditionsRU, map[string][]string{
+		"сосущий": {
+			"хуй",
+			"хуй обезьяны",
+			"хуй медузы",
+			"хуй бомжа",
+			"сиськи хуебляди",
+		},
+		"ебущий": {
+			"дикобразов",
+			"обезьян",
+			"сраных обезьян",
+			"бомжей",
+			"грязных бомжей",
+			"пиздохуемразей",
+		},
+	})
 )

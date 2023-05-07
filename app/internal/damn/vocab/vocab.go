@@ -4,10 +4,11 @@ type Corpus struct {
 	Nouns        []string
 	Adjectives   []string
 	Conjunctions []string
+	Additions    map[string][]string
 }
 
 type Vocabulary struct {
-	lang Language
+	Lang Language
 }
 
 func New(lang Language) *Vocabulary {
@@ -37,15 +38,17 @@ func (v *Vocabulary) Corpus(opts ...Option) Corpus {
 	corpus := Corpus{}
 	config := makeConfig(opts)
 
-	switch v.lang {
+	switch v.Lang {
 	case LanguageRU:
 		if config.gender == GenderMasculine {
 			if !config.obscene {
 				corpus.Nouns = masculineAbusiveNounsRU
 				corpus.Adjectives = masculineAbusiveAdjectivesRU
+				corpus.Additions = masculineAbusiveAdditionsRU
 			} else {
 				corpus.Nouns = masculineObsceneNounsRU
 				corpus.Adjectives = masculineObsceneAdjectivesRU
+				corpus.Additions = masculineObsceneAdditionsRU
 			}
 		} else {
 			if !config.obscene {
@@ -57,7 +60,7 @@ func (v *Vocabulary) Corpus(opts ...Option) Corpus {
 			}
 		}
 		if !config.obscene {
-			corpus.Conjunctions = conjunctionsAbuseRU
+			corpus.Conjunctions = conjunctionsAbusiveRU
 		} else {
 			corpus.Conjunctions = conjunctionsObsceneRU
 		}

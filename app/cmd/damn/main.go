@@ -13,13 +13,11 @@ func main() {
 	var (
 		genderStr string
 		langStr   string
-		name      string
 		level     int
 		obscene   bool
 	)
 	flag.StringVar(&genderStr, "gender", "m", "Gender to damn: m - male, f - female.")
 	flag.StringVar(&langStr, "language", "ru", "God damn language: ru.")
-	flag.StringVar(&name, "name", "", "Name to damn.")
 	flag.IntVar(&level, "level", 1, "God damn level: from 1 to 4.")
 	flag.BoolVar(&obscene, "obscene", false, "Usage of obscene vocabulary.")
 	flag.Parse()
@@ -42,11 +40,7 @@ func main() {
 		vocab.WithObscene(obscene),
 	)
 
-	if name != "" {
-		fmt.Printf("%s %s.\n", name, s)
-	} else {
-		fmt.Println(damn.ToSentence(s))
-	}
+	fmt.Println(s)
 }
 
 var (

@@ -3,9 +3,9 @@ package damn
 import (
 	"math/rand"
 	"strings"
-	"unicode"
 
 	"ktolstikhin/damn/internal/damn/vocab"
+	"ktolstikhin/damn/internal/util"
 )
 
 type Damner struct {
@@ -19,35 +19,41 @@ func NewDamner(lang vocab.Language) *Damner {
 }
 
 func (d *Damner) DamnYou(level int, opts ...vocab.Option) string {
-	if level < 1 || level > 4 {
+	if level < 1 {
 		level = 1
 	}
-	// TODO: level 1, 2, 3, 4* - add ending additions
 	var (
-		output   []string
-		conjUsed bool
-		adjSeen  = make(map[string]bool)
-		corpus   = d.vocab.Corpus(opts...)
+		output  []string
+		adjSeen = make(map[string]bool)
+		corpus  = d.vocab.Corpus(opts...)
 	)
-	for len(adjSeen) < level {
+
+	// First, compose God damn adjectives
+	for i := 0; i < level; i++ {
 		adj := chooseRandom(corpus.Adjectives)
-		if !adjSeen[adj] {
-			adjSeen[adj] = true
-			output = append(output, adj)
-			if flipCoin() && len(adjSeen) < level && !conjUsed {
-				conjSeen := make(map[string]bool)
-				for i := 0; i < rand.Intn(maxRandomConjenctions); i++ {
-					conj := chooseRandom(corpus.Conjunctions)
-					if !conjSeen[conj] {
-						conjSeen[conj] = true
-						output = append(output, conj)
-					}
+		if adjSeen[adj] {
+			continue
+		}
+		adjSeen[adj] = true
+		output = append(output, adj)
+
+		if flipCoin() && len(output) < level {
+			conjSeen := make(map[string]bool)
+			for j := 0; j < rand.Intn(3); j++ {
+				conj := chooseRandom(corpus.Conjunctions)
+				if conjSeen[conj] {
+					continue
 				}
-				conjUsed = true
+				conjSeen[conj] = true
+				output = append(output, conj)
 			}
 		}
 	}
+
+	// Then, add a single noun
 	output = append(output, chooseRandom(corpus.Nouns))
+
+	// After that, add randomly one more adjective to the end, if not added yet
 	if flipCoin() {
 		adj := chooseRandom(corpus.Adjectives)
 		if _, ok := adjSeen[adj]; !ok {
@@ -55,14 +61,13 @@ func (d *Damner) DamnYou(level int, opts ...vocab.Option) string {
 		}
 	}
 
+	// Finally, append a random addition if the level is high enough
+	if level > 3 && flipCoin() {
+		k, v := util.RandomKeyValueFromMap(corpus.Additions)
+		output = append(output, k, chooseRandom(v))
+	}
+
 	return strings.Join(output, " ")
-}
-
-func ToSentence(s string) string {
-	runes := []rune(s)
-	runes[0] = unicode.ToUpper(runes[0])
-
-	return string(runes) + "."
 }
 
 func chooseRandom(items []string) string {
@@ -76,5 +81,3 @@ func chooseRandom(items []string) string {
 func flipCoin() bool {
 	return rand.Float32() < 0.5
 }
-
-const maxRandomConjenctions = 3
