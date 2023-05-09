@@ -8,6 +8,8 @@ import (
 	"os/signal"
 	"syscall"
 	"time"
+
+	"ktolstikhin/damn/internal/logger"
 )
 
 const (
@@ -18,11 +20,13 @@ const (
 
 type Server struct {
 	addr string
+	log  *logger.Logger
 }
 
-func New(addr string) *Server {
+func New(addr string, log *logger.Logger) *Server {
 	return &Server{
 		addr: addr,
+		log:  log,
 	}
 }
 

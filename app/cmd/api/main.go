@@ -2,8 +2,9 @@ package main
 
 import (
 	"flag"
-	"log"
+	"os"
 
+	"ktolstikhin/damn/internal/logger"
 	"ktolstikhin/damn/internal/server"
 )
 
@@ -12,13 +13,14 @@ func main() {
 	flag.StringVar(&addr, "addr", ":8000", "server address")
 	flag.Parse()
 
-	srv := server.New(addr)
-	log.Printf("starting server on %s", addr)
+	log := logger.New(os.Stdout, logger.LevelAll, true)
+	srv := server.New(addr, log)
+	log.Info("starting server on %s", addr)
 
 	err := srv.Run()
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	log.Println("server stopped")
+	log.Info("server stopped")
 }

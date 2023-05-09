@@ -12,26 +12,30 @@ type ErrMessage struct {
 }
 
 func (s *Server) errorMessage(w http.ResponseWriter, r *http.Request, status int, message string) {
-	err := response.JSON(w, status, ErrMessage{
-		Error: strings.ToLower(message),
-	})
+	err := response.JSON(w, status, ErrMessage{Error: message})
 	if err != nil {
-		// TODO: app.logger.Error(err)
+		s.log.Error(err)
 		w.WriteHeader(http.StatusInternalServerError)
 	}
 }
 
 func (s *Server) serverError(w http.ResponseWriter, r *http.Request, err error) {
-	// TODO: app.logger.Error(err)
-	s.errorMessage(w, r, http.StatusInternalServerError, http.StatusText(http.StatusInternalServerError))
+	s.log.Error(err)
+	status := http.StatusInternalServerError
+	message := strings.ToLower(http.StatusText(status))
+	s.errorMessage(w, r, status, message)
 }
 
 func (s *Server) notFound(w http.ResponseWriter, r *http.Request) {
-	s.errorMessage(w, r, http.StatusNotFound, http.StatusText(http.StatusNotFound))
+	status := http.StatusNotFound
+	message := strings.ToLower(http.StatusText(status))
+	s.errorMessage(w, r, status, message)
 }
 
 func (s *Server) methodNotAllowed(w http.ResponseWriter, r *http.Request) {
-	s.errorMessage(w, r, http.StatusMethodNotAllowed, http.StatusText(http.StatusMethodNotAllowed))
+	status := http.StatusMethodNotAllowed
+	message := strings.ToLower(http.StatusText(status))
+	s.errorMessage(w, r, status, message)
 }
 
 func (s *Server) badRequest(w http.ResponseWriter, r *http.Request, err error) {
