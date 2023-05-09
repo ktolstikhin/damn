@@ -19,6 +19,7 @@ func (s *Server) router() http.Handler {
 	r.MethodNotAllowed(s.methodNotAllowed)
 
 	r.Get("/damn/ru", s.getDamnHandler(vocab.LanguageRU))
+	r.Get("/status", s.handleGetStatus)
 
 	return r
 }

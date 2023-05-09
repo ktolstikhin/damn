@@ -10,7 +10,7 @@ import (
 	"ktolstikhin/damn/internal/server/response"
 )
 
-type DamnMessage struct {
+type DamnResponse struct {
 	Words []string `json:"words"`
 }
 
@@ -58,11 +58,24 @@ func (s *Server) getDamnHandler(lang vocab.Language) http.HandlerFunc {
 
 		words := damner.DamnYou(level, opts...)
 
-		err = response.JSON(w, http.StatusOK, DamnMessage{
+		err = response.JSON(w, http.StatusOK, DamnResponse{
 			Words: words,
 		})
 		if err != nil {
 			s.serverError(w, r, err)
 		}
+	}
+}
+
+type StatusResponse struct {
+	Status string `json:"status"`
+}
+
+func (s *Server) handleGetStatus(w http.ResponseWriter, r *http.Request) {
+	err := response.JSON(w, http.StatusOK, StatusResponse{
+		Status: "ok",
+	})
+	if err != nil {
+		s.serverError(w, r, err)
 	}
 }
