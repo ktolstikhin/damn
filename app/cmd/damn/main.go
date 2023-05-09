@@ -16,25 +16,25 @@ func main() {
 		level     int
 		obscene   bool
 	)
-	flag.StringVar(&genderStr, "gender", "m", "God damn gender: m - male, f - female.")
+	flag.StringVar(&genderStr, "gender", "male", "God damn gender: male, female.")
 	flag.StringVar(&langStr, "language", "ru", "God damn language: ru.")
 	flag.IntVar(&level, "level", 1, "God damn level: from 1 to sky is the limit.")
 	flag.BoolVar(&obscene, "obscene", false, "Usage of obscene vocabulary.")
 	flag.Parse()
 
-	gender, ok := vocab.StrToGenderMap[genderStr]
-	if !ok {
-		fmt.Printf("unknown gender: %s\n", genderStr)
+	gender, err := vocab.ParseGender(genderStr)
+	if err != nil {
+		fmt.Println(err)
 		os.Exit(1)
 	}
 
-	lng, ok := vocab.StrToLanguageMap[langStr]
-	if !ok {
-		fmt.Printf("unknown language: %s\n", langStr)
+	lang, err := vocab.ParseLanguage(langStr)
+	if err != nil {
+		fmt.Println(err)
 		os.Exit(1)
 	}
 
-	tokens := damn.NewDamner(lng).DamnYou(
+	tokens := damn.NewDamner(lang).DamnYou(
 		level,
 		vocab.WithGender(gender),
 		vocab.WithObscene(obscene),

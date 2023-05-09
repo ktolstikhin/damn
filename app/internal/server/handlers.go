@@ -11,7 +11,9 @@ import (
 )
 
 type DamnResponse struct {
-	Words []string `json:"words"`
+	Words   []string     `json:"words"`
+	Gender  vocab.Gender `json:"gender"`
+	Obscene bool         `json:"obscene"`
 }
 
 func (s *Server) getDamnHandler(lang vocab.Language) http.HandlerFunc {
@@ -19,9 +21,10 @@ func (s *Server) getDamnHandler(lang vocab.Language) http.HandlerFunc {
 
 	return func(w http.ResponseWriter, r *http.Request) {
 		var (
-			level int
-			err   error
-			opts  []vocab.Option
+			level   = 1
+			gender  = vocab.GenderMasculine
+			obscene = false
+			err     error
 		)
 
 		if r.URL.Query().Has("level") {
@@ -36,30 +39,34 @@ func (s *Server) getDamnHandler(lang vocab.Language) http.HandlerFunc {
 
 		if r.URL.Query().Has("gender") {
 			genderStr := r.URL.Query().Get("gender")
-			gender, ok := vocab.StrToGenderMap[genderStr]
-			if !ok {
-				s.unprocessableEntity(w, r, fmt.Errorf("invalid query gender: %s", genderStr))
+			gender, err = vocab.ParseGender(genderStr)
+			if err != nil {
+				s.unprocessableEntity(w, r, err)
 
 				return
 			}
-			opts = append(opts, vocab.WithGender(gender))
 		}
 
 		if r.URL.Query().Has("obscene") {
 			obsceneStr := r.URL.Query().Get("obscene")
-			obscene, err := strconv.ParseBool(obsceneStr)
+			obscene, err = strconv.ParseBool(obsceneStr)
 			if err != nil {
 				s.unprocessableEntity(w, r, fmt.Errorf("invalid query obscene: %s", obsceneStr))
 
 				return
 			}
-			opts = append(opts, vocab.WithObscene(obscene))
 		}
 
-		words := damner.DamnYou(level, opts...)
+		words := damner.DamnYou(
+			level,
+			vocab.WithGender(gender),
+			vocab.WithObscene(obscene),
+		)
 
 		err = response.JSON(w, http.StatusOK, DamnResponse{
-			Words: words,
+			Words:   words,
+			Gender:  gender,
+			Obscene: obscene,
 		})
 		if err != nil {
 			s.serverError(w, r, err)
