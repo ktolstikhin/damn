@@ -31,7 +31,7 @@ func (s *Server) getDamnHandler(lang vocab.Language) http.HandlerFunc {
 			levelStr := r.URL.Query().Get("level")
 			level, err = strconv.Atoi(levelStr)
 			if err != nil {
-				s.unprocessableEntity(w, r, fmt.Errorf("invalid query level: %s", levelStr))
+				s.unprocessableEntity(w, r, fmt.Errorf("invalid level: %s", levelStr))
 
 				return
 			}
@@ -51,7 +51,7 @@ func (s *Server) getDamnHandler(lang vocab.Language) http.HandlerFunc {
 			obsceneStr := r.URL.Query().Get("obscene")
 			obscene, err = strconv.ParseBool(obsceneStr)
 			if err != nil {
-				s.unprocessableEntity(w, r, fmt.Errorf("invalid query obscene: %s", obsceneStr))
+				s.unprocessableEntity(w, r, fmt.Errorf("invalid obscene: %s", obsceneStr))
 
 				return
 			}
