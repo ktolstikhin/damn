@@ -14,13 +14,15 @@ type ErrMessage struct {
 func (s *Server) errorMessage(w http.ResponseWriter, r *http.Request, status int, message string) {
 	err := response.JSON(w, status, ErrMessage{Error: message})
 	if err != nil {
-		s.log.Error(err)
+		log := s.RequestLogger(r)
+		log.Error().Err(err).Msg("Failed to write json response")
 		w.WriteHeader(http.StatusInternalServerError)
 	}
 }
 
 func (s *Server) serverError(w http.ResponseWriter, r *http.Request, err error) {
-	s.log.Error(err)
+	log := s.RequestLogger(r)
+	log.Error().Err(err).Msg("Server error")
 	status := http.StatusInternalServerError
 	message := strings.ToLower(http.StatusText(status))
 	s.errorMessage(w, r, status, message)

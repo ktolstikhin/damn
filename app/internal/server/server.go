@@ -9,7 +9,8 @@ import (
 	"syscall"
 	"time"
 
-	"ktolstikhin/damn/internal/logger"
+	"github.com/go-chi/httplog"
+	"github.com/rs/zerolog"
 )
 
 const (
@@ -20,10 +21,10 @@ const (
 
 type Server struct {
 	addr string
-	log  *logger.Logger
+	log  zerolog.Logger
 }
 
-func New(addr string, log *logger.Logger) *Server {
+func New(addr string, log zerolog.Logger) *Server {
 	return &Server{
 		addr: addr,
 		log:  log,
@@ -58,4 +59,8 @@ func (s *Server) Run() error {
 	}
 
 	return <-shutdownError
+}
+
+func (s *Server) RequestLogger(r *http.Request) zerolog.Logger {
+	return httplog.LogEntry(r.Context())
 }

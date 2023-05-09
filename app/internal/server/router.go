@@ -4,13 +4,14 @@ import (
 	"net/http"
 
 	"github.com/go-chi/chi/v5"
+	"github.com/go-chi/httplog"
 )
 
 func (s *Server) router() http.Handler {
 	r := chi.NewRouter()
 
 	r.Use(s.recoverPanic)
-	// TODO: use request logging middleware
+	r.Use(httplog.RequestLogger(s.log))
 
 	r.NotFound(s.notFound)
 	r.MethodNotAllowed(s.methodNotAllowed)
