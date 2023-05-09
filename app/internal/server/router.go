@@ -12,7 +12,6 @@ import (
 func (s *Server) router() http.Handler {
 	r := chi.NewRouter()
 
-	r.Use(s.recoverPanic)
 	r.Use(httplog.RequestLogger(s.log))
 
 	r.NotFound(s.notFound)
