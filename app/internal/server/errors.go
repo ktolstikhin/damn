@@ -43,3 +43,7 @@ func (s *Server) methodNotAllowed(w http.ResponseWriter, r *http.Request) {
 func (s *Server) badRequest(w http.ResponseWriter, r *http.Request, err error) {
 	s.errorMessage(w, r, http.StatusBadRequest, err.Error())
 }
+
+func (s *Server) unprocessableEntity(w http.ResponseWriter, r *http.Request, err error) {
+	s.errorMessage(w, r, http.StatusUnprocessableEntity, err.Error())
+}

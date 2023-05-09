@@ -5,6 +5,8 @@ import (
 
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/httplog"
+
+	"ktolstikhin/damn/internal/damn/vocab"
 )
 
 func (s *Server) router() http.Handler {
@@ -16,7 +18,7 @@ func (s *Server) router() http.Handler {
 	r.NotFound(s.notFound)
 	r.MethodNotAllowed(s.methodNotAllowed)
 
-	r.Get("/damn", s.handleGetDamn)
+	r.Get("/damn/ru", s.getDamnHandler(vocab.LanguageRU))
 
 	return r
 }

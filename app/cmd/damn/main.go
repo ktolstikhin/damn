@@ -22,13 +22,13 @@ func main() {
 	flag.BoolVar(&obscene, "obscene", false, "Usage of obscene vocabulary.")
 	flag.Parse()
 
-	gender, ok := genders[genderStr]
+	gender, ok := vocab.StrToGenderMap[genderStr]
 	if !ok {
 		fmt.Printf("unknown gender: %s\n", genderStr)
 		os.Exit(1)
 	}
 
-	lng, ok := languages[langStr]
+	lng, ok := vocab.StrToLanguageMap[langStr]
 	if !ok {
 		fmt.Printf("unknown language: %s\n", langStr)
 		os.Exit(1)
@@ -42,16 +42,6 @@ func main() {
 
 	fmt.Println(compose(tokens))
 }
-
-var (
-	genders = map[string]vocab.Gender{
-		"m": vocab.GenderMasculine,
-		"f": vocab.GenderFeminine,
-	}
-	languages = map[string]vocab.Language{
-		"ru": vocab.LanguageRU,
-	}
-)
 
 func compose(tokens []string) string {
 	var s string
