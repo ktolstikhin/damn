@@ -10,26 +10,22 @@ func MergeMaps[K comparable, V any](m1 map[K]V, m2 map[K]V) map[K]V {
 	for k, v := range m2 {
 		merged[k] = v
 	}
+
 	return merged
 }
 
-func RandMapEntry[K comparable, V any](m map[K]V) (K, V) {
+func RandMapKey[K comparable, V any](m map[K]V) K {
 	var (
-		k K
-		v V
-		i = rand.Intn(len(m))
+		key K
+		i   = rand.Intn(len(m))
 	)
 
-	if len(m) == 0 {
-		return k, v
-	}
-
-	for k, v = range m {
+	for key = range m {
 		if i == 0 {
 			break
 		}
 		i--
 	}
 
-	return k, v
+	return key
 }

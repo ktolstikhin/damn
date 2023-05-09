@@ -63,7 +63,8 @@ func (d *Damner) DamnYou(level int, opts ...vocab.Option) []string {
 		if d.vocab.Lang == vocab.LanguageRU {
 			output = append(output, ",")
 		}
-		k, v := util.RandMapEntry(corpus.Additions)
+		k := util.RandMapKey(corpus.Additions)
+		v := corpus.Additions[k]
 		output = append(output, k, util.RandPick(v))
 	}
 
