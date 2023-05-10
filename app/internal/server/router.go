@@ -18,7 +18,10 @@ func (s *Server) router() http.Handler {
 	r.Use(httprate.Limit(
 		2,
 		time.Second,
-		httprate.WithKeyByIP(),
+		httprate.WithKeyFuncs(
+			httprate.KeyByIP,
+			httprate.KeyByEndpoint,
+		),
 		httprate.WithLimitHandler(s.tooManyRequests),
 	))
 
