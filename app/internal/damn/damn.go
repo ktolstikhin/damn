@@ -15,8 +15,10 @@ func NewDamner(lang vocab.Language) *Damner {
 	}
 }
 
+const MaxLevel = 5
+
 func (d *Damner) DamnYou(level int, opts ...vocab.Option) []string {
-	if level < 1 {
+	if level < 1 || level > MaxLevel {
 		level = 1
 	}
 	var (

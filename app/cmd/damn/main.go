@@ -18,7 +18,7 @@ func main() {
 	)
 	flag.StringVar(&genderStr, "gender", "male", "God damn gender: male, female.")
 	flag.StringVar(&langStr, "language", "ru", "God damn language: ru.")
-	flag.IntVar(&level, "level", 1, "God damn level: from 1 to sky is the limit.")
+	flag.IntVar(&level, "level", 1, fmt.Sprintf("God damn level: from 1 to %d.", damn.MaxLevel))
 	flag.BoolVar(&obscene, "obscene", false, "Usage of obscene vocabulary.")
 	flag.Parse()
 
