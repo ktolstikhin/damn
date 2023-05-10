@@ -19,9 +19,7 @@ func (s *Server) router() http.Handler {
 		2,
 		time.Second,
 		httprate.WithKeyByIP(),
-		httprate.WithLimitHandler(func(w http.ResponseWriter, r *http.Request) {
-			s.tooManyRequests(w, r, ErrTooManyRequests)
-		}),
+		httprate.WithLimitHandler(s.tooManyRequests),
 	))
 
 	r.NotFound(s.notFound)
