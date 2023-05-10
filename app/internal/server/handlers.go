@@ -41,7 +41,7 @@ func (s *Server) getDamnHandler(lang vocab.Language) http.HandlerFunc {
 			genderStr := r.URL.Query().Get("gender")
 			gender, err = vocab.ParseGender(genderStr)
 			if err != nil {
-				s.unprocessableEntity(w, r, err)
+				s.unprocessableEntity(w, r, fmt.Errorf("invalid gender: %s", genderStr))
 
 				return
 			}
