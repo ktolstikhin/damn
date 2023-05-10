@@ -1,11 +1,14 @@
 package server
 
 import (
+	"errors"
 	"net/http"
 	"strings"
 
 	"ktolstikhin/damn/internal/server/response"
 )
+
+var ErrTooManyRequests = errors.New("too many requests")
 
 type ErrMessage struct {
 	Error string `json:"error"`
@@ -46,4 +49,8 @@ func (s *Server) badRequest(w http.ResponseWriter, r *http.Request, err error) {
 
 func (s *Server) unprocessableEntity(w http.ResponseWriter, r *http.Request, err error) {
 	s.errorMessage(w, r, http.StatusUnprocessableEntity, err.Error())
+}
+
+func (s *Server) tooManyRequests(w http.ResponseWriter, r *http.Request, err error) {
+	s.errorMessage(w, r, http.StatusTooManyRequests, err.Error())
 }

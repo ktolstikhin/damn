@@ -33,7 +33,7 @@ func main() {
 
 	err := srv.Run()
 	if err != nil {
-		log.Fatal().Err(err).Msg("Failed to run server")
+		log.Fatal().Err(err).Msgf("Failed to run server: %s", err)
 	}
 
 	log.Info().Msg("Server stopped")
