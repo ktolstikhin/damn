@@ -3,9 +3,9 @@ version: "3.9"
 services:
   api:
     restart: on-failure:3
-    command: ./api -addr=:8000 -jsonlog
+    command: ./api -addr=:8000
 
-  nginx:
+  web:
     restart: on-failure:3
     networks:
       - default

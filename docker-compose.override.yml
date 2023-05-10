@@ -4,9 +4,9 @@ services:
   api:
     command: ./api -addr=:8000 -debug
 
-  nginx:
+  web:
     ports:
       - 8080:80
     volumes:
-      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
-      - ./nginx/html:/var/www/html
+      - ./web/nginx/default.conf:/etc/nginx/conf.d/default.conf
+      - ./web/html:/var/www/html

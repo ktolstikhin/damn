@@ -4,8 +4,8 @@ services:
   api:
     build: ./app
 
-  nginx:
-    build: ./nginx
+  web:
+    build: ./web
     depends_on:
       - api
     volumes:
