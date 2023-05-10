@@ -11,7 +11,7 @@ import (
 )
 
 type DamnResponse struct {
-	Words   []string     `json:"words"`
+	Tokens  []string     `json:"tokens"`
 	Gender  vocab.Gender `json:"gender"`
 	Obscene bool         `json:"obscene"`
 }
@@ -57,14 +57,14 @@ func (s *Server) getDamnHandler(lang vocab.Language) http.HandlerFunc {
 			}
 		}
 
-		words := damner.DamnYou(
+		tokens := damner.DamnYou(
 			level,
 			vocab.WithGender(gender),
 			vocab.WithObscene(obscene),
 		)
 
 		err = response.JSON(w, http.StatusOK, DamnResponse{
-			Words:   words,
+			Tokens:  tokens,
 			Gender:  gender,
 			Obscene: obscene,
 		})

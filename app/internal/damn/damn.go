@@ -21,22 +21,28 @@ func (d *Damner) DamnYou(level int, opts ...vocab.Option) []string {
 	if level < 1 || level > MaxLevel {
 		level = 1
 	}
+
 	var (
-		output  []string
-		adjSeen = make(map[string]bool)
-		corpus  = d.vocab.Corpus(opts...)
+		tokens []string
+		corpus = d.vocab.Corpus(opts...)
 	)
 
-	// First, compose God damn adjectives
+	// First, maybe start with a noun
+	if util.FlipCoin() {
+		tokens = append(tokens, util.RandPick(corpus.Nouns))
+	}
+
+	// Then, compose God damn adjectives
+	adjSeen := make(map[string]bool)
 	for i := 0; i < level; i++ {
 		adj := util.RandPick(corpus.Adjectives)
 		if adjSeen[adj] {
 			continue
 		}
 		adjSeen[adj] = true
-		output = append(output, adj)
+		tokens = append(tokens, adj)
 
-		if util.FlipCoin() && len(output) < level {
+		if util.FlipCoin() && len(tokens) < level {
 			conjSeen := make(map[string]bool)
 			for j := 0; j < util.RandIntMinMax(1, 3); j++ {
 				conj := util.RandPick(corpus.Conjunctions)
@@ -44,31 +50,31 @@ func (d *Damner) DamnYou(level int, opts ...vocab.Option) []string {
 					continue
 				}
 				conjSeen[conj] = true
-				output = append(output, conj)
+				tokens = append(tokens, conj)
 			}
 		}
 	}
 
 	// Then, add a single noun
-	output = append(output, util.RandPick(corpus.Nouns))
+	tokens = append(tokens, util.RandPick(corpus.Nouns))
 
 	// After that, add randomly one more adjective to the end, if not added yet
 	if util.FlipCoin() {
 		adj := util.RandPick(corpus.Adjectives)
 		if _, ok := adjSeen[adj]; !ok {
-			output = append(output, adj)
+			tokens = append(tokens, adj)
 		}
 	}
 
 	// Finally, append at random one addition if the level is high enough
 	if util.FlipCoin() && level > 3 {
 		if d.vocab.Lang == vocab.LanguageRU {
-			output = append(output, ",")
+			tokens = append(tokens, ",")
 		}
 		k := util.RandMapKey(corpus.Additions)
 		v := corpus.Additions[k]
-		output = append(output, k, util.RandPick(v))
+		tokens = append(tokens, k, util.RandPick(v))
 	}
 
-	return output
+	return tokens
 }
