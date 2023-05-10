@@ -1,0 +1,23 @@
+version: "3.9"
+
+services:
+  api:
+    restart: on-failure:3
+    command: ./api -addr=:8000 -jsonlog
+
+  nginx:
+    restart: on-failure:3
+    networks:
+      - default
+      - proxy
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=proxy"
+      - "traefik.http.routers.damn.entrypoints=websecure"
+      - "traefik.http.routers.damn.tls.certresolver=myresolver"
+      - "traefik.http.routers.damn.rule=Host(`${DOMAIN}`)"
+      - "traefik.http.services.damn.loadbalancer.server.port=80"
+
+networks:
+  proxy:
+    external: true

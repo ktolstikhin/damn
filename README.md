@@ -4,11 +4,15 @@ This web app is made to damn all the sinners in the name of Almighty Lord.
 
 ## Development
 
-TODO
+```bash
+docker compose up
+```
 
 ## Deployment
 
-TODO
+```bash
+docker compose -f docker-compose.yml -f docker-compose.production up -d
+```
 
 ## Authors
 
