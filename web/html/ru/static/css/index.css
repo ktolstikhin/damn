@@ -7,6 +7,16 @@ body {
   background-color: #f5f5f5;
 }
 
+.logo {
+  /* font-family: "One two thirty-four", sans-serif; */
+  font-family: "Alphabet Minus Eighty Dirty", sans-serif;
+  font-size: 1.25em;
+}
+
+.page-content {
+  font-family: "They call me Lazy Thinbold", sans-serif;
+}
+
 .footer {
   position: fixed;
   left: 0;
