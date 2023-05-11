@@ -1,25 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Oopsie! (งツ)ว</title>
-  <link href="https://fonts.googleapis.com/css?family=Montserrat:200,400,700" rel="stylesheet">
-  <link type="text/css" rel="stylesheet" href="/static/css/error.css" />
-</head>
-
-<body>
-  <div id="error">
-    <div class="error">
-      <div class="error-msg">
-        <h1>Oops!</h1>
-        <h2><!--# echo var="status" default="" --> - Something went wrong...</h2>
+  <head>
+    <title>Oopsie! (งツ)ว</title>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
+  </head>
+  <body>
+    <div class="d-flex align-items-center justify-content-center vh-100">
+      <div class="text-center">
+        <h1 class="display-1 fw-bold"><!--# echo var="status" default="" --></h1>
+        <p class="fs-3"> <span class="text-danger">God damn!</span></p>
+        <p class="lead">
+        Something went wrong here...
+        </p>
+        <a href="/" class="btn btn-primary">Go Home</a>
       </div>
-      <a href="/">Go to Homepage</a>
     </div>
-  </div>
-</body>
-
+  </body>
 </html>
