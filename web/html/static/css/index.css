@@ -8,12 +8,11 @@ body {
 }
 
 .logo {
-  /* font-family: "One two thirty-four", sans-serif; */
   font-family: "Alphabet Minus Eighty Dirty", sans-serif;
-  font-size: 1.25em;
+  font-size: 40px;
 }
 
-.page-content {
+.page-title {
   font-family: "They call me Lazy Thinbold", sans-serif;
 }
 
