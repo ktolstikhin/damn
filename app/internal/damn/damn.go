@@ -34,6 +34,7 @@ func (d *Damner) DamnYou(level int, opts ...vocab.Option) []string {
 
 	// Then, compose God damn adjectives
 	adjSeen := make(map[string]bool)
+	addUsed := false
 	for i := 0; i < level; i++ {
 		adj := util.RandPick(corpus.Adjectives)
 		if adjSeen[adj] {
@@ -53,27 +54,25 @@ func (d *Damner) DamnYou(level int, opts ...vocab.Option) []string {
 				tokens = append(tokens, conj)
 			}
 		}
+
+		// Append at random one addition if the level is high enough
+		if util.FlipCoin() && !addUsed && level > 3 {
+			k := util.RandMapKey(corpus.Additions)
+			v := corpus.Additions[k]
+			tokens = append(tokens, k, util.RandPick(v))
+			addUsed = true
+		}
 	}
 
-	// Then, add a single noun
+	// After that, add a single noun
 	tokens = append(tokens, util.RandPick(corpus.Nouns))
 
-	// After that, add randomly one more adjective to the end, if not added yet
+	// Finally, add randomly one more adjective to the end, if not added yet
 	if util.FlipCoin() {
 		adj := util.RandPick(corpus.Adjectives)
 		if _, ok := adjSeen[adj]; !ok {
 			tokens = append(tokens, adj)
 		}
-	}
-
-	// Finally, append at random one addition if the level is high enough
-	if util.FlipCoin() && level > 3 {
-		if d.vocab.Lang == vocab.LanguageRU {
-			tokens = append(tokens, ",")
-		}
-		k := util.RandMapKey(corpus.Additions)
-		v := corpus.Additions[k]
-		tokens = append(tokens, k, util.RandPick(v))
 	}
 
 	return tokens
