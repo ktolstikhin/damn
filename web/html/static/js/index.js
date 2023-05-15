@@ -1,15 +1,14 @@
 function damnPerson(name, gender, level, obscene) {
-    const params = $.param({
+    const urlParams = $.param({
       name: name,
       gender: gender,
       level: level,
       obscene: obscene,
     });
-    window.location.replace(`/damn?${params}`);
+    window.location.replace(`/damn?${urlParams}`);
 }
 
 $(document).ready(function() {
-
   $("#damnForm").submit(function() {
     const params = $.param({
       name: $("input#name").val(),
@@ -21,5 +20,4 @@ $(document).ready(function() {
 
     return false;
   });
-
 });
