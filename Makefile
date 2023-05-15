@@ -13,4 +13,3 @@ deploy:
 .PHONY: stop
 stop:
 	docker compose down
-	docker volume rm damn_static

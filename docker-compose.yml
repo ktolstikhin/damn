@@ -8,9 +8,3 @@ services:
     build: ./web
     depends_on:
       - api
-    volumes:
-      - static:/var/www/html
-
-volumes:
-  static:
-
