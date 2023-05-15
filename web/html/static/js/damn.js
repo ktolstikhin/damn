@@ -6,6 +6,15 @@ function getRandomNumber(min, max) {
     return Math.floor(Math.random() * (max - min) + min);
 }
 
+function copyToClipboard(text) {
+  var dummy = document.createElement('textarea');
+  document.body.appendChild(dummy);
+  dummy.value = text
+  dummy.select();
+  document.execCommand('copy');
+  document.body.removeChild(dummy);
+}
+
 $(document).ready(function() {
   var urlParams = new URLSearchParams(window.location.search)
   var name = decodeURIComponent(urlParams.get('name'));
@@ -40,18 +49,17 @@ $(document).ready(function() {
       contentType: 'application/json',
       success: function(data) {
         damnText = data.tokens.join(' ');
-        if (name) {
-          damnText = `${name} ${damnText}`
-        }
+        copyText = name ? `${name} ${damnText}` : damnText;
         var damnItem = `
-        <div class="row justify-content-center mb-3 fadeIn">
-          <div class="col-md-8 text-center">
-            ${damnText}
-            <button class="btn" onclick="navigator.clipboard.writeText('${damnText}')">
-              <i class="fa-regular fa-copy copy-icon"></i>
-            </button>
+          <div class="row justify-content-center mb-3 fadeIn">
+            <div class="col-md-8 text-center">
+              ${damnText}
+              <button class="btn" onclick="copyToClipboard('${copyText}')">
+                <i class="fa-regular fa-copy copy-icon"></i>
+              </button>
+            </div>
           </div>
-        </div>`;
+        `;
         $('#damnItems').prepend(damnItem);
         setTimeout(callGodDamnApi, getRandomNumber(minApiCallDelay, maxApiCallDelay));
       },
