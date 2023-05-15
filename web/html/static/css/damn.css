@@ -1,0 +1,25 @@
+.damn-name {
+  font-family: "Unutterable", sans-serif;
+  font-size: 30px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-align: center;
+  color: red;
+}
+
+.damn-items {
+  font-family: "Unutterable", sans-serif;
+  font-size: 25px;
+}
+
+@-webkit-keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
+ @-moz-keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
+ @keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
+
+.fadeIn {
+  -webkit-animation: fadeIn 1s ease-in-out 0s;
+  -moz-animation: fadeIn 1s ease-in-out 0s;
+  -o-animation: fadeIn 1s ease-in-out 0s;
+   animation: fadeIn 1s ease-in-out 0s;
+}
