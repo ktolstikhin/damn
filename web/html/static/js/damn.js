@@ -16,6 +16,11 @@ function copyToClipboard(text) {
 }
 
 $(document).ready(function() {
+
+  $('#shareButton').click(function() {
+    copyToClipboard(window.location.toString());
+  });
+
   var urlParams = new URLSearchParams(window.location.search)
   var name = decodeURIComponent(urlParams.get('name'));
 
