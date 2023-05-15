@@ -62,7 +62,6 @@ $(document).ready(function() {
         setTimeout(callGodDamnApi, getRandomNumber(minApiCallDelay, maxApiCallDelay));
       },
       error: function(XMLHttpRequest, textStatus, errorThrown) { 
-        console.log(`[error] api request to ${url}: ${textStatus} ${errorThrown}`);
         setTimeout(callGodDamnApi, getRandomNumber(minApiCallDelay, maxApiCallDelay) * 2);
       }
     });
