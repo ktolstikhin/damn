@@ -13,6 +13,10 @@ function copyToClipboard(text) {
   dummy.select();
   document.execCommand('copy');
   document.body.removeChild(dummy);
+  $.notify('📋', {
+    position: 'right middle',
+    className: 'success',
+  });
 }
 
 $(document).ready(function() {
