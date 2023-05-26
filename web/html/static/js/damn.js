@@ -13,8 +13,8 @@ function copyToClipboard(text) {
   dummy.select();
   document.execCommand('copy');
   document.body.removeChild(dummy);
-  $.notify('📋', {
-    position: 'right middle',
+  $.notify('💾', {
+    position: 'top center',
     className: 'success',
   });
 }
