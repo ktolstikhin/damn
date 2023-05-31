@@ -8,6 +8,7 @@ import (
 	"github.com/go-chi/httplog"
 	"github.com/go-chi/httprate"
 
+	"ktolstikhin/damn/internal/damn"
 	"ktolstikhin/damn/internal/damn/vocab"
 )
 
@@ -28,7 +29,9 @@ func (s *Server) router() http.Handler {
 	r.NotFound(s.notFound)
 	r.MethodNotAllowed(s.methodNotAllowed)
 
-	r.Get("/damn/ru", s.getDamnHandler(vocab.LanguageRU))
+	ruDamner := damn.NewDamner(vocab.LanguageRU)
+
+	r.Get("/damn/ru", s.getDamnHandler(ruDamner))
 	r.Get("/status", s.handleGetStatus)
 
 	return r

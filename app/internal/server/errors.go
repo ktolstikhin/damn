@@ -14,7 +14,7 @@ type ErrMessage struct {
 func (s *Server) errorStatusMessage(w http.ResponseWriter, r *http.Request, status int, message string) {
 	err := response.JSON(w, status, ErrMessage{Error: message})
 	if err != nil {
-		log := s.RequestLogger(r)
+		log := s.requestLogger(r)
 		log.Error().Err(err).Msg("Failed to write json response")
 		w.WriteHeader(http.StatusInternalServerError)
 	}
@@ -25,7 +25,7 @@ func (s *Server) errorStatus(w http.ResponseWriter, r *http.Request, status int)
 }
 
 func (s *Server) serverError(w http.ResponseWriter, r *http.Request, err error) {
-	log := s.RequestLogger(r)
+	log := s.requestLogger(r)
 	log.Error().Err(err).Msg("Server error")
 	s.errorStatus(w, r, http.StatusInternalServerError)
 }

@@ -5,7 +5,6 @@ import (
 	"net/http"
 	"strconv"
 
-	"ktolstikhin/damn/internal/damn"
 	"ktolstikhin/damn/internal/damn/vocab"
 	"ktolstikhin/damn/internal/server/response"
 )
@@ -16,9 +15,11 @@ type DamnResponse struct {
 	Obscene bool         `json:"obscene"`
 }
 
-func (s *Server) getDamnHandler(lang vocab.Language) http.HandlerFunc {
-	damner := damn.NewDamner(lang)
+type Damner interface {
+	DamnYou(int, ...vocab.Option) []string
+}
 
+func (s *Server) getDamnHandler(damner Damner) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		var (
 			level   = 1

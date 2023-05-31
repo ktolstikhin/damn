@@ -61,6 +61,6 @@ func (s *Server) Run() error {
 	return <-shutdownError
 }
 
-func (s *Server) RequestLogger(r *http.Request) zerolog.Logger {
+func (s *Server) requestLogger(r *http.Request) zerolog.Logger {
 	return httplog.LogEntry(r.Context())
 }
