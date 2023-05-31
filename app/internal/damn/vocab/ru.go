@@ -1,7 +1,5 @@
 package vocab
 
-import "ktolstikhin/damn/internal/util"
-
 var (
 	masculineAbusiveAdjectivesRU = []string{
 		"толстый",
@@ -407,7 +405,7 @@ var (
 			"против ветра",
 		},
 	}
-	masculineObsceneAdditionsRU = util.MergeMaps(masculineAbusiveAdditionsRU, map[string][]string{
+	masculineObsceneAdditionsRU = mergeMaps(masculineAbusiveAdditionsRU, map[string][]string{
 		"сосущий": {
 			"хуй",
 			"хуй обезьяны",
@@ -478,7 +476,7 @@ var (
 			"и злоебучая",
 		},
 	}
-	feminineObsceneAdditionsRU = util.MergeMaps(feminineAbusiveAdditionsRU, map[string][]string{
+	feminineObsceneAdditionsRU = mergeMaps(feminineAbusiveAdditionsRU, map[string][]string{
 		"сосущая": {
 			"хуй",
 			"хуй обезьяны",

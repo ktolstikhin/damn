@@ -2,7 +2,6 @@ package damn
 
 import (
 	"ktolstikhin/damn/internal/damn/vocab"
-	"ktolstikhin/damn/internal/util"
 )
 
 type Damner struct {
@@ -28,25 +27,25 @@ func (d *Damner) DamnYou(level int, opts ...vocab.Option) []string {
 	)
 
 	// First, maybe start with a noun
-	if util.FlipCoin() {
-		tokens = append(tokens, util.RandPick(corpus.Nouns))
+	if flipCoin() {
+		tokens = append(tokens, randPick(corpus.Nouns))
 	}
 
 	// Then, compose God damn adjectives
 	adjSeen := make(map[string]bool)
 	addUsed := false
 	for i := 0; i < level; i++ {
-		adj := util.RandPick(corpus.Adjectives)
+		adj := randPick(corpus.Adjectives)
 		if adjSeen[adj] {
 			continue
 		}
 		adjSeen[adj] = true
 		tokens = append(tokens, adj)
 
-		if util.FlipCoin() && len(tokens) < level {
+		if flipCoin() && len(tokens) < level {
 			conjSeen := make(map[string]bool)
-			for j := 0; j < util.RandIntMinMax(1, 3); j++ {
-				conj := util.RandPick(corpus.Conjunctions)
+			for j := 0; j < randIntMinMax(1, 3); j++ {
+				conj := randPick(corpus.Conjunctions)
 				if conjSeen[conj] {
 					continue
 				}
@@ -56,20 +55,20 @@ func (d *Damner) DamnYou(level int, opts ...vocab.Option) []string {
 		}
 
 		// Append at random one addition if the level is high enough
-		if util.FlipCoin() && !addUsed && level > 3 {
-			k := util.RandMapKey(corpus.Additions)
+		if flipCoin() && !addUsed && level > 3 {
+			k := randMapKey(corpus.Additions)
 			v := corpus.Additions[k]
-			tokens = append(tokens, k, util.RandPick(v))
+			tokens = append(tokens, k, randPick(v))
 			addUsed = true
 		}
 	}
 
 	// After that, add a single noun
-	tokens = append(tokens, util.RandPick(corpus.Nouns))
+	tokens = append(tokens, randPick(corpus.Nouns))
 
 	// Finally, add randomly one more adjective to the end, if not added yet
-	if util.FlipCoin() {
-		adj := util.RandPick(corpus.Adjectives)
+	if flipCoin() {
+		adj := randPick(corpus.Adjectives)
 		if _, ok := adjSeen[adj]; !ok {
 			tokens = append(tokens, adj)
 		}
