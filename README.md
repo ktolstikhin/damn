@@ -11,9 +11,9 @@ docker compose up
 ## Deployment
 
 ```bash
-docker compose -f docker-compose.yml -f docker-compose.production up -d
+docker compose -f docker-compose.yml -f docker-compose.production.yml up -d
 ```
 
 ## Authors
 
-Copyright © Konstantin Tolstikhin <k.tolstikhin@gmail.com>
+© Konstantin Tolstikhin <k.tolstikhin@gmail.com>

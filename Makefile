@@ -8,7 +8,10 @@ run:
 
 .PHONY: deploy
 deploy:
-	docker compose -f docker-compose.yml -f docker-compose.production.yml up -d
+	docker compose \
+		-f docker-compose.yml \
+		-f docker-compose.production.yml \
+		up -d
 
 .PHONY: stop
 stop:
