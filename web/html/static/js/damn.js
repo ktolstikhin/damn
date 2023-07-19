@@ -62,10 +62,10 @@ $(document).ready(function() {
         var damnItem = `
           <div class="row justify-content-center mb-3 fadeIn">
             <div class="col-md-8 text-center">
-              ${damnText}
               <button class="btn" onclick="copyToClipboard('${copyText}')">
                 <i class="fa-regular fa-copy copy-icon"></i>
               </button>
+              ${damnText}
             </div>
           </div>
         `;
