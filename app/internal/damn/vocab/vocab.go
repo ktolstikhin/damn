@@ -1,10 +1,9 @@
 package vocab
 
 type Corpus struct {
-	Nouns        []string
-	Adjectives   []string
-	Conjunctions []string
-	Additions    map[string][]string
+	Nouns      []string
+	Adjectives []string
+	Additions  map[string][]string
 }
 
 type Vocabulary struct {
@@ -60,11 +59,6 @@ func (v *Vocabulary) Corpus(opts ...Option) Corpus {
 				corpus.Adjectives = feminineObsceneAdjectivesRU
 				corpus.Additions = feminineObsceneAdditionsRU
 			}
-		}
-		if !config.obscene {
-			corpus.Conjunctions = conjunctionsAbusiveRU
-		} else {
-			corpus.Conjunctions = conjunctionsObsceneRU
 		}
 	}
 
