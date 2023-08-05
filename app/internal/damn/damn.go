@@ -26,12 +26,7 @@ func (d *Damner) DamnYou(level int, opts ...vocab.Option) []string {
 		corpus = d.vocab.Corpus(opts...)
 	)
 
-	// First, maybe start with a noun
-	if flipCoin() {
-		tokens = append(tokens, randPick(corpus.Nouns))
-	}
-
-	// Then, compose God damn adjectives
+	// First, compose God damn adjectives
 	adjSeen := make(map[string]bool)
 	addUsed := false
 	for i := 0; i < level; i++ {
@@ -51,7 +46,7 @@ func (d *Damner) DamnYou(level int, opts ...vocab.Option) []string {
 		}
 	}
 
-	// After that, add a single noun
+	// Then, add a single noun
 	tokens = append(tokens, randPick(corpus.Nouns))
 
 	// Finally, add randomly one more adjective to the end, if not added yet
