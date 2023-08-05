@@ -14,7 +14,7 @@ function copyToClipboard(text) {
   document.execCommand('copy');
   document.body.removeChild(dummy);
   $.notify('💾', {
-    position: 'top center',
+    position: 'top right',
     className: 'success',
   });
 }
