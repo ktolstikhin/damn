@@ -2,6 +2,12 @@
 build:
 	docker compose build
 
+build/web:
+	docker compose build web
+
+build/api:
+	docker compose build api
+
 .PHONY: run
 run:
 	docker compose up
