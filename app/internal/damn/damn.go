@@ -49,7 +49,7 @@ func (d *Damner) DamnYou(level int, opts ...vocab.Option) []string {
 	// Then, add a single noun
 	tokens = append(tokens, randPick(corpus.Nouns))
 
-	// Finally, add randomly one more adjective to the end, if not added yet
+	// Finally, add randomly one more adjective to the end, if not used before
 	if flipCoin() {
 		adj := randPick(corpus.Adjectives)
 		if _, ok := adjSeen[adj]; !ok {
