@@ -1,4 +1,4 @@
-package server
+package handler
 
 import (
 	"fmt"
@@ -19,7 +19,7 @@ type Damner interface {
 	DamnYou(int, ...vocab.Option) []string
 }
 
-func (s *Server) getDamnHandler(damner Damner) http.HandlerFunc {
+func NewGetDamnHandler(damner Damner) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		var (
 			level   = 1
@@ -32,7 +32,7 @@ func (s *Server) getDamnHandler(damner Damner) http.HandlerFunc {
 			levelStr := r.URL.Query().Get("level")
 			level, err = strconv.Atoi(levelStr)
 			if err != nil {
-				s.unprocessableEntity(w, r, fmt.Errorf("invalid level: %s", levelStr))
+				unprocessableEntity(w, r, fmt.Errorf("invalid level: %s", levelStr))
 
 				return
 			}
@@ -42,7 +42,7 @@ func (s *Server) getDamnHandler(damner Damner) http.HandlerFunc {
 			genderStr := r.URL.Query().Get("gender")
 			gender, err = vocab.ParseGender(genderStr)
 			if err != nil {
-				s.unprocessableEntity(w, r, fmt.Errorf("invalid gender: %s", genderStr))
+				unprocessableEntity(w, r, fmt.Errorf("invalid gender: %s", genderStr))
 
 				return
 			}
@@ -52,7 +52,7 @@ func (s *Server) getDamnHandler(damner Damner) http.HandlerFunc {
 			obsceneStr := r.URL.Query().Get("obscene")
 			obscene, err = strconv.ParseBool(obsceneStr)
 			if err != nil {
-				s.unprocessableEntity(w, r, fmt.Errorf("invalid obscene: %s", obsceneStr))
+				unprocessableEntity(w, r, fmt.Errorf("invalid obscene: %s", obsceneStr))
 
 				return
 			}
@@ -70,20 +70,7 @@ func (s *Server) getDamnHandler(damner Damner) http.HandlerFunc {
 			Obscene: obscene,
 		})
 		if err != nil {
-			s.serverError(w, r, err)
+			serverError(w, r, err)
 		}
-	}
-}
-
-type StatusResponse struct {
-	Status string `json:"status"`
-}
-
-func (s *Server) handleGetStatus(w http.ResponseWriter, r *http.Request) {
-	err := response.JSON(w, http.StatusOK, StatusResponse{
-		Status: "ok",
-	})
-	if err != nil {
-		s.serverError(w, r, err)
 	}
 }

@@ -10,6 +10,7 @@ import (
 
 	"ktolstikhin/damn/internal/damn"
 	"ktolstikhin/damn/internal/damn/vocab"
+	"ktolstikhin/damn/internal/server/handler"
 )
 
 func (s *Server) router() http.Handler {
@@ -23,16 +24,16 @@ func (s *Server) router() http.Handler {
 			httprate.KeyByIP,
 			httprate.KeyByEndpoint,
 		),
-		httprate.WithLimitHandler(s.tooManyRequests),
+		httprate.WithLimitHandler(handler.TooManyRequests),
 	))
 
-	r.NotFound(s.notFound)
-	r.MethodNotAllowed(s.methodNotAllowed)
+	r.NotFound(handler.NotFound)
+	r.MethodNotAllowed(handler.MethodNotAllowed)
 
 	ruDamner := damn.NewDamner(vocab.LanguageRU)
 
-	r.Get("/damn/ru", s.getDamnHandler(ruDamner))
-	r.Get("/status", s.handleGetStatus)
+	r.Get("/damn/ru", handler.NewGetDamnHandler(ruDamner))
+	r.Get("/status", handler.GetStatus)
 
 	return r
 }

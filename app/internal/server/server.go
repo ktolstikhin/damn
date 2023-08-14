@@ -9,7 +9,6 @@ import (
 	"syscall"
 	"time"
 
-	"github.com/go-chi/httplog"
 	"github.com/rs/zerolog"
 )
 
@@ -59,8 +58,4 @@ func (s *Server) Run() error {
 	}
 
 	return <-shutdownError
-}
-
-func (s *Server) requestLogger(r *http.Request) zerolog.Logger {
-	return httplog.LogEntry(r.Context())
 }
